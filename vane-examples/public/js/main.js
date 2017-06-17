@@ -16,7 +16,9 @@ $(document).ready(function() {
 		});
 
     var refreshAll = function() {
+        var baseArr = $('#base-url').val().split('?', 2);
         var host = $('#base-url').val();
+
         var op = $('.op-list.active').data('op');
 
         var whereArr = [];
@@ -37,7 +39,11 @@ $(document).ready(function() {
             whereArr.push('day<' + end.format('YYYY-MM-DD'));
         }
 
-        var baseURL = host + '?op=' + op;
+        var baseURL = baseArr[0] + '?op=' + op;
+        if (baseArr[1]) {
+            baseURL += '&' + baseArr[1];
+        }
+
         if (whereArr.length) {
             baseURL += '&where=' + whereArr.join(',');
         }
