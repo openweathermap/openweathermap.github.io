@@ -9,6 +9,7 @@
     <link rel="shortcut icon" href="public/img/favicon.ico" type="image/x-icon">
     <link href="public/css/lavish-bootstrap.css" rel="stylesheet">
     <link rel="stylesheet" type="text/css" href="public/css/daterangepicker.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/main.css" />
 </head>
 
 <body>
@@ -18,19 +19,13 @@
                 <div class="jumbotron">
                     <h1>VANE exaples:</h1>
                     <div class="input-group input-group-lg">
-                        <input id="base-url" type="text" class="form-control" placeholder="url" aria-describedby="sizing-addon1" value="http://mesos14.owm.io:1337/sql/7/67/46">
+                        <input id="base-url" type="text" class="form-control" placeholder="url" aria-describedby="sizing-addon1" value="http://mesos14.owm.io:1337/sql/8/127/92">
                         <span class="input-group-btn">
                           <button id="go-button" class="btn btn-default" type="button">Go!</button>
                         </span>
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-xs-6 col-lg-4">
-                        <h2>Default</h2>
-                        <a href="#" target="new" class="thumbnail">
-                            <img src="" alt="default" data-from="">
-                        </a>
-                    </div>
                     <div class="col-xs-6 col-lg-4">
                         <h2>Landsat-8</h2>
                         <a href="#" target="new" class="thumbnail">
@@ -74,8 +69,7 @@
             <!--/.col-xs-12.col-sm-9-->
             <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
                 <div class="list-group">
-                    <a href="#" class="list-group-item op-list active" data-op="">Default</a>
-                    <a href="#" class="list-group-item op-list" data-op="truecolor">TrueColor</a>
+                    <a href="#" class="list-group-item op-list active" data-op="truecolor">TrueColor</a>
                     <a href="#" class="list-group-item op-list" data-op="falsecolor">FalseColor</a>
                     <a href="#" class="list-group-item op-list" data-op="rgb">RGB</a>
                     <a href="#" class="list-group-item op-list" data-op="ndvi">NDVI</a>
@@ -87,23 +81,24 @@
                     <label for="date">Date</label>                
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon">
-                              <input id="date-flag" type="checkbox" aria-label="...">
-                            </span>
+                            <input id="date-flag" class="flag" type="checkbox" aria-label="...">
+                        </span>
                         <input type="text" class="form-control" id="date" name="date" value="01/01/2017" />
                     </div>                    
                     <label for="daterange">Date range</label>                
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon">
-                              <input id="daterange-flag" type="checkbox" aria-label="...">
-                            </span>
+                            <input id="daterange-flag" class="flag" type="checkbox" aria-label="...">
+                        </span>
                         <input type="text" class="form-control" id="daterange" name="daterange" value="01/01/2017 - 01/31/2017" />
                     </div>
                     <label for="clouds">Clouds</label>   
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon">
-                              <input id="clouds-flag" type="checkbox" aria-label="...">
-                            </span>
+                            <input id="clouds-flag" class="flag" type="checkbox" aria-label="...">
+                        </span>
                         <input id="clouds" class="form-control" type="range" min="0" max="100" step="1" value="100">
+                        <span class="input-group-addon" id="clouds-value">100</span>
                     </div>                    
                     <!-- </div> -->
                 </div>

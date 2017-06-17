@@ -74,7 +74,7 @@ $(document).ready(function() {
                 format: 'YYYY-MM-DD'
             },
             startDate: '2017-01-01',
-            endDate: '2017-06-06'
+            endDate: moment().format('YYYY-MM-DD')
         },
         function(start, end, label) {
             setTimeout(refreshAll,1);
@@ -87,15 +87,21 @@ $(document).ready(function() {
             },
             singleDatePicker: true,
             showDropdowns: true,
-            startDate: '2017-01-01',
-            endDate: '2017-01-01'
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD')
         },
         function(start, end, label) {
             setTimeout(refreshAll,1);
         });
 
     $('#clouds').change(function(){
+        $('#clouds-value').text($(this).val());
     	setTimeout(refreshAll,1);
     });
+
+    $('.flag').change(function(){
+        setTimeout(refreshAll,1);
+    });
+
     setTimeout(refreshAll,1);
 });
