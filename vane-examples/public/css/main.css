@@ -35,5 +35,6 @@
 }
 
 .targeted {
-	opacity: 0.5 !important;
+	opacity: 0.9 !important;
+	-webkit-filter: blur(1px);filter: blur(1px);
 }
