@@ -1,11 +1,65 @@
 $(document).ready(function() {
+    var map = L.map('map').setView([44.77, -0.6], 8);
+
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+
+    $('input[name="daterange"]').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            startDate: '2017-01-01',
+            endDate: moment().format('YYYY-MM-DD')
+        },
+        function(start, end, label) {
+            setTimeout(refreshAll, 1);
+        });
+
+
+    $('input[name="date"]').daterangepicker({
+            locale: {
+                format: 'YYYY-MM-DD'
+            },
+            singleDatePicker: true,
+            showDropdowns: true,
+            startDate: moment().format('YYYY-MM-DD'),
+            endDate: moment().format('YYYY-MM-DD')
+        },
+        function(start, end, label) {
+            setTimeout(refreshAll, 1);
+        });
+
+    var tileSize = L.point(256, 256);
+
+    var getCoords = function() {
+        var zoom = map.getZoom();
+        var center = map.getCenter();
+        var pixelPoint = map.project(center, zoom).floor();
+        var coords = pixelPoint.unscaleBy(tileSize).floor();
+
+        return "/" + zoom + "/" + coords.x + "/" + coords.y;
+    };
+
+    var baseArr = $('#base-url').val().split('?', 2);
+    var coordinates = getCoords();
+    var op = $('.op-list.active').data('op');
+
+    var markTile = function() {
+        $('.leaflet-tile').each(function() {
+            var src = $(this).attr('src');
+            if (src.indexOf(coordinates) + 1) $(this).addClass('targeted');
+            else $(this).removeClass('targeted');
+        });
+    }
+
     $('.tile-preview').error(function(e, b, c) {
         $(this).closest('a').removeClass('spinner');
         $(this).attr("src", "public/img/error.png");
     });
 
     $('.tile-preview').load(function() {
-      $(this).closest('a').removeClass('spinner');
+        $(this).closest('a').removeClass('spinner');
     });
 
     $("#date-flag").change(function() {
@@ -19,28 +73,13 @@ $(document).ready(function() {
             $("#date-flag").prop('checked', false);
         }
     });
-    // /8/127/92
-    var map = L.map('map').setView([44.77, -0.6], 8);
 
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-
-    var tileSize = L.point(256, 256);
     var refreshAll = function() {
-        $('.tile-preview').each(function() {            
+        $('.tile-preview').each(function() {
             $(this).closest('a').addClass('spinner');
         });
 
-        var zoom = map.getZoom();
-        var center = map.getCenter();
-        var pixelPoint = map.project(center, zoom).floor();
-        var coords = pixelPoint.unscaleBy(tileSize).floor();
-
-        var baseArr = $('#base-url').val().split('?', 2);
-        var op = $('.op-list.active').data('op');
-
-        var host = baseArr[0].replace("/{z}/{x}/{y}", "/" + zoom + "/" + coords.x + "/" + coords.y);
+        var host = baseArr[0].replace("/{z}/{x}/{y}", coordinates);
         var query = baseArr[1];
         var baseURL = host + '?op=' + op + (query ? '&' + query : '');
 
@@ -69,7 +108,6 @@ $(document).ready(function() {
         $('.tile-preview').each(function() {
             var $img = $(this);
             var imgFrom = $img.data('from');
-
             var url = baseURL + '&from=' + imgFrom;
             $img.closest("a").attr('href', url);
             $img.attr('src', url);
@@ -77,40 +115,16 @@ $(document).ready(function() {
     };
 
     $('#go-button').click(function(e) {
+        baseArr = $('#base-url').val().split('?', 2);
         setTimeout(refreshAll, 1);
     });
 
     $('.op-list').click(function(e) {
-        console.log(e);
         $('.op-list').removeClass('active');
+        op = $(this).data('op');
         $(this).addClass('active');
         setTimeout(refreshAll, 1);
     });
-
-    $('input[name="daterange"]').daterangepicker({
-            locale: {
-                format: 'YYYY-MM-DD'
-            },
-            startDate: '2017-01-01',
-            endDate: moment().format('YYYY-MM-DD')
-        },
-        function(start, end, label) {
-            setTimeout(refreshAll, 1);
-        });
-
-
-    $('input[name="date"]').daterangepicker({
-            locale: {
-                format: 'YYYY-MM-DD'
-            },
-            singleDatePicker: true,
-            showDropdowns: true,
-            startDate: moment().format('YYYY-MM-DD'),
-            endDate: moment().format('YYYY-MM-DD')
-        },
-        function(start, end, label) {
-            setTimeout(refreshAll, 1);
-        });
 
     $('#clouds').change(function() {
         $('#clouds-value').text($(this).val());
@@ -122,7 +136,16 @@ $(document).ready(function() {
     });
 
     map.on('moveend', function(e) {
-        setTimeout(refreshAll, 1);
+        var newCoordinates = getCoords();
+
+        if (newCoordinates !== coordinates) {
+            coordinates = newCoordinates;
+
+            markTile();
+            setTimeout(refreshAll, 1);
+        }
     });
+
+    markTile();
     setTimeout(refreshAll, 1);
 });

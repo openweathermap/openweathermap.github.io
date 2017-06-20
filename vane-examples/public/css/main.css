@@ -5,6 +5,7 @@
 #map {
 	height: 256px;
 	width: 256px;
+	background-color: #2d2d2d;
 }
 
 .tile-preview {
@@ -31,4 +32,8 @@
   border: 2px solid #ccc;
   border-top-color: #333;
   animation: spinner .8s linear infinite;
+}
+
+.targeted {
+	opacity: 0.5 !important;
 }
