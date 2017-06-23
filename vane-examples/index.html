@@ -79,32 +79,41 @@
                 </div>
                 <div class="list-group">
                     <!-- <div class="list-group-item"> -->
-                    <label for="date">Date</label>                
+                    <label for="date">Date</label>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon">
                             <input id="date-flag" class="flag" type="checkbox" aria-label="...">
                         </span>
                         <input type="text" class="form-control" id="date" name="date" value="01/01/2017" />
-                    </div>                    
-                    <label for="daterange">Date range</label>                
+                    </div>
+                    <label for="daterange">Date range</label>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon">
                             <input id="daterange-flag" class="flag" type="checkbox" aria-label="...">
                         </span>
                         <input type="text" class="form-control" id="daterange" name="daterange" value="01/01/2017 - 01/31/2017" />
                     </div>
-                    <label for="clouds">Clouds</label>   
+                    <label for="clouds">Clouds</label>
                     <div class="input-group input-group-lg">
                         <span class="input-group-addon">
                             <input id="clouds-flag" class="flag" type="checkbox" aria-label="...">
                         </span>
                         <input id="clouds" class="form-control" type="range" min="0" max="100" step="1" value="100">
                         <span class="input-group-addon" id="clouds-value">100</span>
-                    </div>                    
+                    </div>
                     <!-- </div> -->
                 </div>
                 <div class="list-group">
                     <div id="map"></div>
+                </div>
+                <label for="map-center">Set center coordinates</label>
+                <div class="list-group">
+                    <div class="input-group input-group-lg">
+                        <input id="map-center" class="form-control" type="text">
+                        <span class="input-group-btn">
+                          <button id="map-center-button" class="btn btn-default" type="button">Set</button>
+                        </span>
+                    </div>
                 </div>
             </div>
             <!--/.sidebar-offcanvas-->

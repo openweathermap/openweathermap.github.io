@@ -1,40 +1,50 @@
 #clouds-value {
-	width: 64px;
+    width: 64px;
 }
 
 #map {
-	height: 256px;
-	width: 256px;
-	background-color: #2d2d2d;
+    height: 256px;
+    width: 100%;
+    background-color: #2d2d2d;
+    border-top-right-radius: 6px !important;
+    border-top-left-radius: 6px !important;
+    border: solid 1px #c2c2c2;
 }
 
 .tile-preview {
-	height: 256px;
-	width: 256px;
+    height: 256px;
+    width: 256px;
 }
 
 @keyframes spinner {
-  to {transform: rotate(360deg);}
+    to {
+        transform: rotate(360deg);
+    }
 }
- 
+
 .spinner:before {
-	color: #fff;
-  content: '';
-  box-sizing: border-box;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 40px;
-  height: 40px;
-  margin-top: 0px;
-  margin-left: -20px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  border-top-color: #333;
-  animation: spinner .8s linear infinite;
+    color: #fff;
+    content: '';
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin-top: 0px;
+    margin-left: -20px;
+    border-radius: 50%;
+    border: 2px solid #ccc;
+    border-top-color: #333;
+    animation: spinner .8s linear infinite;
 }
 
 .targeted {
-	opacity: 0.9 !important;
-	-webkit-filter: blur(1px);filter: blur(1px);
+    opacity: 0.9 !important;
+    -webkit-filter: blur(1px);
+    filter: blur(1px);
+}
+
+#map-center {
+  text-align: center;
 }

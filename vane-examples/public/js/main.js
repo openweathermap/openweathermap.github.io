@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    var map = L.map('map').setView([44.77, -0.6], 8);
+    var map = L.map('map').setView([44.7723, -0.6432], 8);
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
@@ -9,7 +9,7 @@ $(document).ready(function() {
             locale: {
                 format: 'YYYY-MM-DD'
             },
-            startDate: '2017-01-01',
+            startDate: '2017-04-06',
             endDate: moment().format('YYYY-MM-DD')
         },
         function(start, end, label) {
@@ -32,9 +32,15 @@ $(document).ready(function() {
 
     var tileSize = L.point(256, 256);
 
+    var round = function(val) {
+        var n = 10000;
+        return Math.round(val * n) / n
+    }
+
     var getCoords = function() {
         var zoom = map.getZoom();
-        var center = map.getCenter();
+        var center = map.getCenter().wrap();
+        $('#map-center').val(round(center.lng) + ', ' + round(center.lat));
         var pixelPoint = map.project(center, zoom).floor();
         var coords = pixelPoint.unscaleBy(tileSize).floor();
 
@@ -117,6 +123,12 @@ $(document).ready(function() {
     $('#go-button').click(function(e) {
         baseArr = $('#base-url').val().split('?', 2);
         setTimeout(refreshAll, 1);
+    });
+
+    $('#map-center-button').click(function(e) {
+        var coords = $('#map-center').val().split(',', 2);
+        map.setView(L.latLng(coords[1],coords[0]), map.getZoom());
+        // setTimeout(refreshAll, 1);
     });
 
     $('.op-list').click(function(e) {
