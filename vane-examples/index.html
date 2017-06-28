@@ -34,6 +34,12 @@
                         </a>
                     </div>
                     <div class="col-xs-6 col-lg-4">
+                        <h2>Landsat-8(TOA)</h2>
+                        <a href="#" target="new" class="thumbnail">
+                            <img class="tile-preview" src="public/img/blank.png" alt="Landsat-8" data-from="l8t">
+                        </a>
+                    </div>                    
+                    <div class="col-xs-6 col-lg-4">
                         <h2>Sentinel-2</h2>
                         <a href="#" target="new" class="thumbnail">
                             <img class="tile-preview" src="public/img/blank.png" alt="Sentinel-2" data-from="s2">
@@ -77,6 +83,7 @@
                     <a href="#" class="list-group-item op-list" data-op="ndi">NDI</a>
                     <a href="#" class="list-group-item op-list" data-op="evi">EVI</a>
                 </div>
+                <hr/>
                 <div class="list-group">
                     <!-- <div class="list-group-item"> -->
                     <label for="date">Date</label>
@@ -103,13 +110,14 @@
                     </div>
                     <!-- </div> -->
                 </div>
+                <hr/>
                 <div class="list-group">
                     <div id="map"></div>
                 </div>
                 <label for="map-center">Set center coordinates</label>
                 <div class="list-group">
                     <div class="input-group input-group-lg">
-                        <input id="map-center" class="form-control" type="text">
+                        <input id="map-center" class="form-control" placeholder="lon, lat" type="text">
                         <span class="input-group-btn">
                           <button id="map-center-button" class="btn btn-default" type="button">Set</button>
                         </span>
