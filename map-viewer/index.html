@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Vane examples</title>
+    <link rel="shortcut icon" href="public/img/favicon.ico" type="image/x-icon">
+    <link href="public/css/lavish-bootstrap.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
+    <link rel="stylesheet" type="text/css" href="public/css/main.css" />
+</head>
+
+<body>
+    <div id="map"></div>
+    <div id="tools">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-9">
+                    <div class="input-group input-group-lg">
+                        <input id="base-url" type="text" class="form-control" placeholder="url" aria-describedby="sizing-addon1" value="http://mesos14.owm.io:1333/sql/{z}/{x}/{y}?op=truecolor&from=cp1">
+                        <span class="input-group-btn">
+                          <button id="go-button" class="btn btn-default" type="button">Go!</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/row-->
+    <footer>
+        <p>© 2017 OWM, Inc.</p>
+    </footer>
+    </div>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="public/js/bootstrap.min.js"></script>
+    <script src="https://unpkg.com/leaflet@1.0.3/dist/leaflet.js"></script>    
+    <script src="public/js/main.js"></script>
+</body>
+
+</html>
