@@ -17,4 +17,16 @@ html, body {
     z-index: 999999999999;
     bottom: 5px;
     left: 0px;
+/*    background-color: #ddd;
+    opacity: 0.7;*/
+    /*width: 50%;*/
+}
+
+#info {
+    padding: 10px 20px;
+    line-height: 20px;
+    height: 40px;
+    background-color: #fff;
+    border-radius: 6px;
+    border: 1px solid transparent;
 }

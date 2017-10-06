@@ -29,6 +29,11 @@ $(document).ready(function() {
             refresh();
         }
     })
+
+    map.on('click', function(e) {
+        var zxy = getCoords(this, e.latlng);
+        $('#info p').text('lat: ' + e.latlng.lat + ' || lon: ' + e.latlng.lng + ' || zxy: ' + zxy);
+    });
 });
 
 function prepareUrl() {
@@ -42,4 +47,14 @@ function prepareUrl() {
     url += baseArr[1];
 
     return url;
+};
+
+function getCoords(map, ll) {
+    var tileSize = L.point(256, 256);
+
+    var zoom = map.getZoom();
+    var pixelPoint = map.project(ll, zoom).floor();
+    var coords = pixelPoint.unscaleBy(tileSize).floor();
+
+    return "/" + zoom + "/" + coords.x + "/" + coords.y;
 };
