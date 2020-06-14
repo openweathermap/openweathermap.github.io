@@ -1,7 +1,8 @@
 $(document).ready(function() {
     var map = L.map('map', {
         center: [44.7723, -0.6432],
-        zoom: 8
+        zoom: 8,
+        maxZoom: 33
     });
 
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
@@ -11,7 +12,8 @@ $(document).ready(function() {
     var url = prepareUrl();
 
     var layer = L.tileLayer(url, {
-        attribution: '&copy; <a href="http://owm.io">VANE</a>'
+        attribution: '&copy; <a href="http://owm.io">VANE</a>',
+        maxZoom: 33
     });
 
     layer.addTo(map);
