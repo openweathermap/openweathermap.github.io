@@ -52,8 +52,8 @@ $(document).ready(function() {
 							color: '#ff2222'
 						};
 					}
-				}).bindPopup(function(layer) {
-					return `name: ${polygon.name}<br />area: ${polygon.area}`;
+				// }).bindPopup(function(layer) {
+				// 	return `name: ${polygon.name}<br />area: ${polygon.area}`;
 				}).addTo(map);
 
 				map.fitBounds(layer.getBounds());
