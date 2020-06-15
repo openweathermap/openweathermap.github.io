@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 		(async() => {
 			try {
-				const res = await fetch(`http://api.agromonitoring.com/agro/1.0/polygons/${polygonId}?appid=${appId}`);
+				const res = await fetch(`https://api.agromonitoring.com/agro/1.0/polygons/${polygonId}?appid=${appId}`);
 				const polygon = await res.json();
 
 				const layer = L.geoJSON(polygon.geo_json, {
