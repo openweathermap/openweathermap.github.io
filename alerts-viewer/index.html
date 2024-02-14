@@ -1,0 +1,159 @@
+<html>
+   <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+    crossorigin=""/>
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+      <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin=""></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+      <style>
+         html, body {
+            height: 100%;
+         }
+         #map {
+            height: 100%;
+         }
+      </style>
+   </head>
+
+   <body>
+      <div id="map"></div>
+
+      <script>
+        // center of the map
+        var center = [-33.8650, 151.2094];
+
+        // Create the map
+        var map = L.map('map').setView(center, 5);
+
+        // Set up the OSM layer
+        L.tileLayer(
+          'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: 'Data © <a href="http://osm.org/copyright">OpenStreetMap</a>',
+            maxZoom: 18
+          }).addTo(map);
+
+        // Initialise the FeatureGroup to store editable layers
+        var editableLayers = new L.FeatureGroup();
+        map.addLayer(editableLayers);
+
+        var drawPluginOptions = {
+          position: 'topright',
+          draw: {
+            polygon: {
+              allowIntersection: false, // Restricts shapes to simple polygons
+              drawError: {
+                color: '#e1e100', // Color the shape will turn when intersects
+                message: '<strong>Oh snap!<strong> you can\'t draw that!' // Message that will show when intersect
+              },
+              shapeOptions: {
+                color: '#97009c'
+              }
+            },
+            // disable toolbar item by setting it to false
+            polyline: false,
+            circle: false, // Turns off this drawing tool
+            circlemarker: false,
+            rectangle: false,
+            marker: false,
+            },
+          edit: {
+            featureGroup: editableLayers, //REQUIRED!!
+            remove: false,
+            edit: false,
+          }
+        };
+
+        // Initialise the draw control and pass it the FeatureGroup of editable layers
+        var drawControl = new L.Control.Draw(drawPluginOptions);
+        map.addControl(drawControl);
+
+        var editableLayers = new L.FeatureGroup();
+        map.addLayer(editableLayers);
+
+        map.on('draw:created', function(e) {
+
+          map.eachLayer(function(layer) {
+            if (!!layer.toGeoJSON) {
+              map.removeLayer(layer);
+            }
+          });
+
+          var type = e.layerType, layer = e.layer;
+
+          sourceGeometry = JSON.stringify(layer.toGeoJSON()['geometry']);
+          apiUrl = 'http://demo.openweathermap.org/alerts/1.0';
+
+          var alerts;
+
+          $.ajax({
+            url: apiUrl,
+            data: {
+              location: sourceGeometry,
+              // start_date: startDate,
+              // end_date: endDate,
+              // appid: appid
+            },
+            async: false,
+            dataType: 'json',
+            success: function(response) {
+                alerts = response;
+            }
+          });
+
+          alerts = alerts['items'][0]['alerts'];
+
+          var alertsJson = [];
+
+          $.each(alerts, function( index, alert ) {
+
+            var source;
+            if (alert["source"] == "Australian Government Bureau of Meteorology") {
+              source = 'government';
+            } else if (alert["source"] == "owm") {
+              source = 'openweather';
+            } else {
+              source = 'other';
+            }
+
+            content = { ...alert };
+            delete content.location;
+
+            item = {
+              "type": "Feature",
+              "properties": {
+                "source": source,
+                "content": "<table><tr><th>alert_id</th><td>" + content.alert_id + "</td></tr><tr><th>source</th><td>" + content.source + "</td></tr><tr><th>title</th><td>" + content.title + "</td></tr><tr><th>industries</th><td>" + JSON.stringify(content.industries).replaceAll(':', ': ').replaceAll(',', ', ') + "</td></tr><tr><th>tag</th><td>" + content.tag + "</td></tr><tr><th>urgency</th><td>" + content.urgency + "</td></tr><tr><th>certainty</th><td>" + content.certainty + "</td></tr></table>"
+              },
+              "geometry": alert["location"]
+            }
+
+            alertsJson.push(item)
+          });
+
+          L.geoJSON(alertsJson, {
+              style: function(feature) {
+                  switch (feature.properties.source) {
+                      case 'government': return {color: "red"};
+                      case 'openweather': return {color: "blue"};
+                      case 'other': return {color: "gray"};
+                  }
+              },
+              onEachFeature: function (feature, layer) {
+                layer.bindPopup(feature.properties.content);
+              }
+          }).addTo(map);
+
+          editableLayers.addLayer(layer);
+
+        });
+
+
+     </script>
+   </body>
+
+</html>
